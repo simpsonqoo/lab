@@ -31,6 +31,8 @@ int main()
     Fasta g = Fasta::parse(str);
     std::cout << "parse\t" << (g.name == "chr1") << (g.seq == "ATTCATTGAATCTATCAT") << std::endl;
     
+    Fasta h;
+    Fasta::getobj(std::cin, h);
     
     /*
     std::vector<std::string> b{{"ATAATGCA"}, {"TT"}};

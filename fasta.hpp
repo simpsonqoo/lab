@@ -153,15 +153,14 @@ class Fasta
 	std::string str_tmp;
 	in >> str_tmp;
 	
-	Fasta f_tmp = parse(str_tmp);
-	
+	tmp = parse(str_tmp);	
     }
-
-    static std::istream& operator<<(std::istream& in, const Fasta& tmp)
+/*
+    friend std::istream &operator>>(std::istream& in, Fasta& tmp)
     {
 	getobj(in, tmp);
-	return in;
-    }
+	//return in;
+    }*/
 };
 
 
