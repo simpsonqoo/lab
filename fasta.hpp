@@ -70,9 +70,11 @@ class Fasta
 	return *this;
     }
 
+    //move constructor
     Fasta(Fasta&& k): name(std::move(k.name)), 
 		seq(std::move(k.seq)), chunk_size(std::move(k.chunk_size)){}
 
+    //move assignment
     Fasta& operator=(Fasta&& k)
     {
 	name = std::move(k.name);
@@ -82,25 +84,36 @@ class Fasta
 	return *this;
     }
 
+    //conver a string to Fasta
     static Fasta parse(const std::string& str)
     {
 	std::string str_name;
 	std::string str_seq;
+
+	//to determine to read name or seq
 	bool flag = false;
 
 	for(INT i = 0; i != str.size(); ++i)
 	{
+	    //reading name
 	    if(!flag)
 	    {
+		//if char is >, skip it
 		if(str[i] == '>')
 		    continue;
+
+		//if char is \n, finishing reading name and stary reading seq
 		if(str[i] == '\n')
 		{
 		    flag = true;
 		    continue;
 		}
+
+		//if it is not two case above, add this char
 		str_name += str[i];
 	    }
+
+	    //reading seq
 	    else
 		if(str[i] == '\n')
 		{
@@ -115,6 +128,7 @@ class Fasta
 	return f;
     }
 
+    //conver a string to Fasta with specified chunk_size
     static Fasta parse(const std::string& str, const INT chunk)
     {	
 	std::string str_name;
@@ -148,19 +162,24 @@ class Fasta
 	return f;
     }
     
-    static bool getobj(std::istream in, Fasta& tmp)
+    //get fasta from istream
+    static bool getobj(std::istream& in, Fasta& tmp)
     {
 	std::string str_tmp;
-	in >> str_tmp;
+	std::string m;
+
+	//add \n to seperate each line. parse will deal with \n
+	while(in >> m)
+	    str_tmp = str_tmp + m + '\n';
 	
 	tmp = parse(str_tmp);	
     }
-/*
+
     friend std::istream &operator>>(std::istream& in, Fasta& tmp)
     {
 	getobj(in, tmp);
-	//return in;
-    }*/
+	return in;
+    }
 };
 
 
